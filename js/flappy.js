@@ -87,7 +87,9 @@ function Passaro(alturaJogo) {
 
     this.animar = () => {
         const novoY = this.getY() + (voando ? 8 : -5)
-        const alturaMaxima = alturaJogo - this.elemento.clientHeight
+
+        // o bug é uma diferença de 90
+        const alturaMaxima = alturaJogo - this.elemento.clientHeight - 90;
 
         // bug: o pássaro está sumindo no topo
         // a parte de baixo está funcionando 
