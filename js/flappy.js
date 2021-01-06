@@ -88,7 +88,7 @@ function Passaro(alturaJogo) {
     this.animar = () => {
         const novoY = this.getY() + (voando ? 8 : -5)
 
-        const alturaMaxima = alturaJogo - this.elemento.clientHeight - 90;
+        const alturaMaxima = alturaJogo - this.elemento.clientHeight;
 
         if(novoY <= 0) {
             this.setY(0)
