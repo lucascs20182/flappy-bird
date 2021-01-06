@@ -111,6 +111,39 @@ function Progresso() {
     this.atualizarPontos(0)
 }
 
+function estaoSobrepostos(elementoA, elementoB) {
+    // retângulo associado ao elemento a
+    const a = elementoA.getBoundingClientRect()
+
+    const b = elementoB.getBoundingClientRect()
+
+    // lado direito de a é maior que lado esquerdo b
+    // e lado direito de b é maior que lado esquerdo de a
+    const horizontal = a.left + a.width >= b.left
+        && b.left + b.width >= a.left
+    
+    const vertical = a.top + a.height >= b.top
+        && b.top + b.height >= a.top
+
+    return horizontal && vertical
+}
+
+function colidiu(passaro, barreiras) {
+    let colidiu = false
+    
+    barreiras.pares.forEach(ParDeBarreiras => {
+        if(!colidiu) {
+            const superior = ParDeBarreiras.superior.elemento
+            const inferior = ParDeBarreiras.inferior.elemento
+
+            colidiu = estaoSobrepostos(passaro.elemento, superior)
+                || estaoSobrepostos(passaro.elemento, inferior)
+        }
+    })
+    
+    return colidiu
+}
+
 function FlappyBird() {
     // estado dos pontos
     let pontos = 0
@@ -134,21 +167,12 @@ function FlappyBird() {
         const temporizador = setInterval(() => {
             barreiras.animar()
             passaro.animar()
+
+            if(colidiu(passaro, barreiras)) {
+                clearInterval(temporizador)
+            }
         }, 20)
     }
 }
 
 new FlappyBird().start()
-
-// const barreiras = new Barreiras(700, 1200, 200, 400)
-// const passaro = new Passaro(700)
-// const areaJogo = document.querySelector('[wm-flappy]')
-
-// areaJogo.appendChild(passaro.elemento)
-// areaJogo.appendChild(new Progresso().elemento)
-// barreiras.pares.forEach(par => areaJogo.appendChild(par.elemento))
-
-// setInterval(() => {
-//     barreiras.animar()
-//     passaro.animar()
-// }, 20)
