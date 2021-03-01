@@ -82,8 +82,11 @@ function Passaro(alturaJogo) {
     this.getY = () => parseInt(this.elemento.style.bottom.split('px')[0])
     this.setY = y => this.elemento.style.bottom = `${y}px`
 
-    window.onkeydown = e => voando = true
-    window.onkeyup = e => voando = false
+    window.onmousedown = e => voando = true
+    window.onmouseup = e => voando = false
+    
+    window.addEventListener("touchend", e => voando = true, false)
+    window.addEventListener("touchstart", e => voando = false, false)
 
     this.animar = () => {
         const novoY = this.getY() + (voando ? 8 : -5)
